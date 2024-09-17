@@ -1,9 +1,6 @@
 package me.yech.rtpqueueplugin;
 
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -74,10 +71,15 @@ public class RtpQCommand extends BukkitCommand {
                 scheduler.runTask(plugin, () -> {
                     player1.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
+                    player1.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                    player2.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                 });
                 scheduler.runTask(plugin, () -> {
                     player1.teleport(loc);
                     player2.teleport(loc);
+                    player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
+                    player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
+
                 });
                 playersInQueue.remove(player1.getUniqueId());
                 playersInQueue.remove(player2.getUniqueId());
