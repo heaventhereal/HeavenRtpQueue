@@ -19,3 +19,8 @@
 
 > Permissions:
 - yech.rtpqreload (reloads the config.yml file)
+
+
+> TODO:
+- action bar
+- sounds/effects on tp
