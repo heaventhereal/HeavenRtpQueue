@@ -21,7 +21,14 @@ public class RtpqReloadCommand extends BukkitCommand {
         rtpQCommand.updateConfigValues();
         String configreload = this.plugin.getConfig().getString("config-reloaded");
         assert configreload != null;
-        sender.sendMessage(ChatColor.translateAlternateColorCodes('&', configreload));
+        String noperms = this.plugin.getConfig().getString("no-perms");
+        assert noperms != null;
+        if (sender.hasPermission("yech.rtpqreload")) {
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', configreload));
+        }else{
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noperms));
+        return false;
+    }
         return true;
     }
 }

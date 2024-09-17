@@ -20,7 +20,7 @@ public final class Rtpqueueplugin extends JavaPlugin {
         getConfig().options().copyDefaults(true);
         saveConfig();
 
-        int flushInterval = getConfig().getInt("queue-flush-interval", 300); // Default 300 secondi
+        int flushInterval = getConfig().getInt("queue-flush-interval", 300);
         new QueueFlusher(this, rtpQCommand.getPlayersInQueue()).runTaskTimer(this, flushInterval * 20L, flushInterval * 20L);
     }
 

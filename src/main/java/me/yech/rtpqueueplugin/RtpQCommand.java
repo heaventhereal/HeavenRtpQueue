@@ -75,7 +75,7 @@ public class RtpQCommand extends BukkitCommand {
                     player1.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                 });
-                scheduler.runTaskAsynchronously(plugin, () -> {
+                scheduler.runTask(plugin, () -> {
                     player1.teleport(loc);
                     player2.teleport(loc);
                 });

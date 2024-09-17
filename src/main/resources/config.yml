@@ -7,6 +7,7 @@ config-reloaded: "&2Config Reloaded"
 actionbar-joined-rtpq: "&2You joined the queue."
 actionbar-left-rtpq: "&cYou left the queue."
 actionbar-being-teleported: "&7You are being teleported."
+no-perms: "&cYou don't have the yech.rtpqreload permission, if u believe this is an error, contact a member of the staff."
 Min x: 50
 Min z: 50
 Max x: 3000
