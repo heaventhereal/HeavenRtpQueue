@@ -11,7 +11,7 @@
 > Global Rtp Queue Join Message
 
 
-> Support for Spigot/Paper/Purpur
+> Support for Spigot/Paper/Purpur (and other spigot-based forks)
 
 
 >  1.20.x to 1.21.x (I Haven't tested other versions)
