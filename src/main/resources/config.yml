@@ -1,0 +1,15 @@
+joined-rtpq: "&7You joined the queue."
+left-rtpq: "&7You left the queue."
+global-joined-rtpq: "&a%player% joined the queue."
+global-left-rtpq: "&c%player% left the queue."
+being-teleported: "&7You are being teleported."
+config-reloaded: "&2Config Reloaded"
+actionbar-joined-rtpq: "&2You joined the queue."
+actionbar-left-rtpq: "&cYou left the queue."
+actionbar-being-teleported: "&7You are being teleported."
+Min x: 50
+Min z: 50
+Max x: 3000
+Max z: 3000
+queue-flush-interval: 300
+queue-flushed-message: "&cRtpQueue data was flushed."

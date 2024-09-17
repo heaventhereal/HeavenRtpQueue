@@ -1,0 +1,6 @@
+name: rtpqueueplugin
+version: '1.0'
+main: me.yech.rtpqueueplugin.Rtpqueueplugin
+api-version: '1.20'
+authors:
+  - yech
