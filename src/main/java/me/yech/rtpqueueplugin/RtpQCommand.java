@@ -1,5 +1,7 @@
 package me.yech.rtpqueueplugin;
 
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -48,6 +50,9 @@ public class RtpQCommand extends BukkitCommand {
             assert globalleftRtpqmessage != null;
             globalleftRtpqmessage = globalleftRtpqmessage.replace("%player%", player.getDisplayName());
             Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', globalleftRtpqmessage));
+            String actionbarleftrtpqueue = this.plugin.getConfig().getString("actionbar-left-rtpq");
+            assert actionbarleftrtpqueue != null;
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarleftrtpqueue));
             return true;
         }
         playersInQueue.add(player.getUniqueId());
@@ -58,6 +63,9 @@ public class RtpQCommand extends BukkitCommand {
         assert globalRtpqmessage != null;
         globalRtpqmessage = globalRtpqmessage.replace("%player%", player.getDisplayName());
         Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', globalRtpqmessage));
+        String actionbarjoinedrtpqueue = this.plugin.getConfig().getString("actionbar-joined-rtpq");
+        assert actionbarjoinedrtpqueue != null;
+        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarjoinedrtpqueue));
         if (playersInQueue.size() == 2) {
             executorService.submit(() -> {
                 Location loc = getRandomLocation();
@@ -65,6 +73,8 @@ public class RtpQCommand extends BukkitCommand {
                 Player player2 = Bukkit.getPlayer(playersInQueue.get(1));
                 String teleportation = this.plugin.getConfig().getString("being-teleported");
                 assert teleportation != null;
+                String actionbarbeingteleported = this.plugin.getConfig().getString("actionbar-being-teleported");
+                assert actionbarbeingteleported != null;
                 assert player1 != null;
                 assert player2 != null;
                 BukkitScheduler scheduler = Bukkit.getScheduler();
@@ -73,14 +83,16 @@ public class RtpQCommand extends BukkitCommand {
                     player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player1.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                     player2.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                    player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
+                    player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
                 });
-                scheduler.runTask(plugin, () -> {
+                scheduler.runTaskLater(plugin, () -> {
                     player1.teleport(loc);
                     player2.teleport(loc);
                     player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
                     player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
 
-                });
+                }, 60);
                 playersInQueue.remove(player1.getUniqueId());
                 playersInQueue.remove(player2.getUniqueId());
             });

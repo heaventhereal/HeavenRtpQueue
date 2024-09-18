@@ -20,7 +20,8 @@ public class QueueFlusher extends BukkitRunnable {
     public void run() {
         if (!playersInQueue.isEmpty()) {
             playersInQueue.clear();
-            String flushMessage = plugin.getConfig().getString("queue-flushed-message", "&cLa coda è stata svuotata automaticamente.");
+            String flushMessage = plugin.getConfig().getString("queue-flushed-message");
+            assert flushMessage != null;
             Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', flushMessage));
         }
     }
