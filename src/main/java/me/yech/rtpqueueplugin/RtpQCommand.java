@@ -9,10 +9,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -83,8 +80,8 @@ public class RtpQCommand extends BukkitCommand {
                     player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
                     player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
-                    player1.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
-                    player2.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                    player1.playSound(player1.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                    player2.playSound(player2.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                 });
                 scheduler.runTaskLater(plugin, () -> {
                     player1.teleport(loc);
