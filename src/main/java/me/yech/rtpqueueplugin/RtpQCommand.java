@@ -81,10 +81,10 @@ public class RtpQCommand extends BukkitCommand {
                 scheduler.runTask(plugin, () -> {
                     player1.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
-                    player1.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
-                    player2.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                     player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
                     player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
+                    player1.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                    player2.playSound(loc, Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                 });
                 scheduler.runTaskLater(plugin, () -> {
                     player1.teleport(loc);
