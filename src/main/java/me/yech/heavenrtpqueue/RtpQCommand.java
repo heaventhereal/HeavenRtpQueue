@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 public class RtpQCommand extends BukkitCommand {
-    private final Rtpqueueplugin plugin;
+    private final HeavenRtpQueue plugin;
     private final ExecutorService executorService = Executors.newFixedThreadPool(4);
     private final List<UUID> playersInQueue = new ArrayList<>();
     private int xMin;
@@ -22,7 +22,7 @@ public class RtpQCommand extends BukkitCommand {
     private int zMin;
     private int zMax;
 
-    public RtpQCommand(Rtpqueueplugin plugin) {
+    public RtpQCommand(HeavenRtpQueue plugin) {
         super("rtpqueue");
         this.plugin = plugin;
         updateConfigValues();

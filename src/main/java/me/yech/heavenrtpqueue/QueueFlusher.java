@@ -8,10 +8,10 @@ import java.util.List;
 import java.util.UUID;
 
 public class QueueFlusher extends BukkitRunnable {
-    private final Rtpqueueplugin plugin;
+    private final HeavenRtpQueue plugin;
     private final List<UUID> playersInQueue;
 
-    public QueueFlusher(Rtpqueueplugin plugin, List<UUID> playersInQueue) {
+    public QueueFlusher(HeavenRtpQueue plugin, List<UUID> playersInQueue) {
         this.plugin = plugin;
         this.playersInQueue = playersInQueue;
     }

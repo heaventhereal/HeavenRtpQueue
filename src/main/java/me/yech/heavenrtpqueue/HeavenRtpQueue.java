@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Field;
 
-public final class Rtpqueueplugin extends JavaPlugin {
+public final class HeavenRtpQueue extends JavaPlugin {
 
     @Override
     public void onEnable() {
