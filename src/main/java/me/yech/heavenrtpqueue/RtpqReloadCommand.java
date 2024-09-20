@@ -1,4 +1,4 @@
-package me.yech.rtpqueueplugin;
+package me.yech.heavenrtpqueue;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

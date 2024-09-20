@@ -1,4 +1,4 @@
-package me.yech.rtpqueueplugin;
+package me.yech.heavenrtpqueue;
 
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -75,7 +75,7 @@ public class RtpQCommand extends BukkitCommand {
                 assert player1 != null;
                 assert player2 != null;
                 BukkitScheduler scheduler = Bukkit.getScheduler();
-                scheduler.runTask(plugin, () -> {
+                scheduler.runTaskAsynchronously(plugin, () -> {
                     player1.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
                     player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
@@ -89,7 +89,7 @@ public class RtpQCommand extends BukkitCommand {
                     player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
                     player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
 
-                }, 60);
+                }, 20);
                 playersInQueue.remove(player1.getUniqueId());
                 playersInQueue.remove(player2.getUniqueId());
             });
