@@ -23,7 +23,8 @@ public class RtpQCommand extends BukkitCommand {
     private int zMax;
 
     public RtpQCommand(HeavenRtpQueue plugin) {
-        super("rtpqueue, rtpq, 1v1");
+        super("rtpqueue");
+        this.setAliases(Arrays.asList("rtpq", "1v1"));
         this.plugin = plugin;
         updateConfigValues();
     }
