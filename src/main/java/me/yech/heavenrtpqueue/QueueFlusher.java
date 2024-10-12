@@ -21,8 +21,8 @@ public class QueueFlusher extends BukkitRunnable {
         if (!playersInQueue.isEmpty()) {
             playersInQueue.clear();
             String flushMessage = plugin.getConfig().getString("queue-flushed-message");
-            assert flushMessage != null;
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', flushMessage));
+            if (flushMessage != null)
+                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', flushMessage));
         }
     }
 }

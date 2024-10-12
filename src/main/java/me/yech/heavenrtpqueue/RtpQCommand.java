@@ -23,7 +23,7 @@ public class RtpQCommand extends BukkitCommand {
     private int zMax;
 
     public RtpQCommand(HeavenRtpQueue plugin) {
-        super("rtpqueue");
+        super("rtpqueue, rtpq, 1v1");
         this.plugin = plugin;
         updateConfigValues();
     }
@@ -42,11 +42,11 @@ public class RtpQCommand extends BukkitCommand {
             playersInQueue.remove(player.getUniqueId());
             String leftRtp = this.plugin.getConfig().getString("left-rtpq");
             assert leftRtp != null;
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', leftRtp));
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + leftRtp));
             String globalleftRtpqmessage = this.plugin.getConfig().getString("global-left-rtpq");
             assert globalleftRtpqmessage != null;
             globalleftRtpqmessage = globalleftRtpqmessage.replace("%player%", player.getDisplayName());
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', globalleftRtpqmessage));
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalleftRtpqmessage));
             String actionbarleftrtpqueue = this.plugin.getConfig().getString("actionbar-left-rtpq");
             assert actionbarleftrtpqueue != null;
             player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarleftrtpqueue));
@@ -55,11 +55,11 @@ public class RtpQCommand extends BukkitCommand {
         playersInQueue.add(player.getUniqueId());
         String joinRtpq = this.plugin.getConfig().getString("joined-rtpq");
         assert joinRtpq != null;
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', joinRtpq));
+        player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + joinRtpq));
         String globalRtpqmessage = this.plugin.getConfig().getString("global-joined-rtpq");
         assert globalRtpqmessage != null;
         globalRtpqmessage = globalRtpqmessage.replace("%player%", player.getDisplayName());
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', globalRtpqmessage));
+        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalRtpqmessage));
         String actionbarjoinedrtpqueue = this.plugin.getConfig().getString("actionbar-joined-rtpq");
         assert actionbarjoinedrtpqueue != null;
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarjoinedrtpqueue));
@@ -76,8 +76,8 @@ public class RtpQCommand extends BukkitCommand {
                 assert player2 != null;
                 BukkitScheduler scheduler = Bukkit.getScheduler();
                 scheduler.runTaskAsynchronously(plugin, () -> {
-                    player1.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
-                    player2.sendMessage(ChatColor.translateAlternateColorCodes('&', teleportation));
+                    player1.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
+                    player2.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
                     player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
                     player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
                     player1.playSound(player1.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
