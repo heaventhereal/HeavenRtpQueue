@@ -39,65 +39,70 @@ public class RtpQCommand extends BukkitCommand {
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, String[] args) {
         if (!(sender instanceof Player player)) return false;
-        if (playersInQueue.contains(player.getUniqueId())) {
-            playersInQueue.remove(player.getUniqueId());
-            String leftRtp = this.plugin.getConfig().getString("left-rtpq");
-            assert leftRtp != null;
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + leftRtp));
-            String globalleftRtpqmessage = this.plugin.getConfig().getString("global-left-rtpq");
-            assert globalleftRtpqmessage != null;
-            globalleftRtpqmessage = globalleftRtpqmessage.replace("%player%", player.getDisplayName());
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalleftRtpqmessage));
-            String actionbarleftrtpqueue = this.plugin.getConfig().getString("actionbar-left-rtpq");
-            assert actionbarleftrtpqueue != null;
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarleftrtpqueue));
-            return true;
-        }
-        playersInQueue.add(player.getUniqueId());
-        String joinRtpq = this.plugin.getConfig().getString("joined-rtpq");
-        assert joinRtpq != null;
-        player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + joinRtpq));
-        String globalRtpqmessage = this.plugin.getConfig().getString("global-joined-rtpq");
-        assert globalRtpqmessage != null;
-        globalRtpqmessage = globalRtpqmessage.replace("%player%", player.getDisplayName());
-        Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalRtpqmessage));
-        String actionbarjoinedrtpqueue = this.plugin.getConfig().getString("actionbar-joined-rtpq");
-        assert actionbarjoinedrtpqueue != null;
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarjoinedrtpqueue));
-        if (playersInQueue.size() == 2) {
-            executorService.submit(() -> {
-                Location loc = getRandomLocation();
-                Player player1 = Bukkit.getPlayer(playersInQueue.get(0));
-                Player player2 = Bukkit.getPlayer(playersInQueue.get(1));
-                String teleportation = this.plugin.getConfig().getString("being-teleported");
-                assert teleportation != null;
-                String actionbarbeingteleported = this.plugin.getConfig().getString("actionbar-being-teleported");
-                assert actionbarbeingteleported != null;
-                assert player1 != null;
-                assert player2 != null;
-                BukkitScheduler scheduler = Bukkit.getScheduler();
-                scheduler.runTaskAsynchronously(plugin, () -> {
-                    player1.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
-                    player2.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
-                    player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
-                    player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
-                    player1.playSound(player1.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
-                    player2.playSound(player2.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
-                });
-                scheduler.runTaskLater(plugin, () -> {
-                    player1.teleport(loc);
-                    player2.teleport(loc);
-                    player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
-                    player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
+        String noperms = this.plugin.getConfig().getString("no-perms");
+        assert noperms != null;
+        if (sender.hasPermission("yech.rtpq")) {
+            if (playersInQueue.contains(player.getUniqueId())) {
+                playersInQueue.remove(player.getUniqueId());
+                String leftRtp = this.plugin.getConfig().getString("left-rtpq");
+                assert leftRtp != null;
+                player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + leftRtp));
+                String globalleftRtpqmessage = this.plugin.getConfig().getString("global-left-rtpq");
+                assert globalleftRtpqmessage != null;
+                globalleftRtpqmessage = globalleftRtpqmessage.replace("%player%", player.getDisplayName());
+                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalleftRtpqmessage));
+                String actionbarleftrtpqueue = this.plugin.getConfig().getString("actionbar-left-rtpq");
+                assert actionbarleftrtpqueue != null;
+                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarleftrtpqueue));
+                return true;
+            }
+            playersInQueue.add(player.getUniqueId());
+            String joinRtpq = this.plugin.getConfig().getString("joined-rtpq");
+            assert joinRtpq != null;
+            player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + joinRtpq));
+            String globalRtpqmessage = this.plugin.getConfig().getString("global-joined-rtpq");
+            assert globalRtpqmessage != null;
+            globalRtpqmessage = globalRtpqmessage.replace("%player%", player.getDisplayName());
+            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalRtpqmessage));
+            String actionbarjoinedrtpqueue = this.plugin.getConfig().getString("actionbar-joined-rtpq");
+            assert actionbarjoinedrtpqueue != null;
+            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarjoinedrtpqueue));
+            if (playersInQueue.size() == 2) {
+                executorService.submit(() -> {
+                    Location loc = getRandomLocation();
+                    Player player1 = Bukkit.getPlayer(playersInQueue.get(0));
+                    Player player2 = Bukkit.getPlayer(playersInQueue.get(1));
+                    String teleportation = this.plugin.getConfig().getString("being-teleported");
+                    assert teleportation != null;
+                    String actionbarbeingteleported = this.plugin.getConfig().getString("actionbar-being-teleported");
+                    assert actionbarbeingteleported != null;
+                    assert player1 != null;
+                    assert player2 != null;
+                    BukkitScheduler scheduler = Bukkit.getScheduler();
+                    scheduler.runTaskAsynchronously(plugin, () -> {
+                        player1.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
+                        player2.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
+                        player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
+                        player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
+                        player1.playSound(player1.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                        player2.playSound(player2.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
+                    });
+                    scheduler.runTaskLater(plugin, () -> {
+                        player1.teleport(loc);
+                        player2.teleport(loc);
+                        player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
+                        player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
 
-                }, 20);
-                playersInQueue.remove(player1.getUniqueId());
-                playersInQueue.remove(player2.getUniqueId());
-            });
+                    }, 20);
+                    playersInQueue.remove(player1.getUniqueId());
+                    playersInQueue.remove(player2.getUniqueId());
+                });
+            }
         }
+        else
+            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noperms));
         return true;
     }
-
     public Location getRandomLocation() {
         Random randomSource = new Random();
         World hopeFullyExistingDefaultWorld = Bukkit.getWorld("world");
