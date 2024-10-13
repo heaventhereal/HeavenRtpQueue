@@ -1,6 +1,7 @@
 package me.yech.heavenrtpqueue;
 
-import org.bukkit.ChatColor;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.jetbrains.annotations.NotNull;
@@ -17,18 +18,22 @@ public class RtpqReloadCommand extends BukkitCommand {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, String[] args) {
-        String configreload = this.plugin.getConfig().getString("config-reloaded");
-        assert configreload != null;
-        String noperms = this.plugin.getConfig().getString("no-perms");
-        assert noperms != null;
+        String configReloadMessage = this.plugin.getConfig().getString("config-reloaded");
+        assert configReloadMessage != null;
+        String noPermsMessage = this.plugin.getConfig().getString("no-perms");
+        assert noPermsMessage != null;
+
         if (sender.hasPermission("yech.rtpqreload")) {
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', configreload));
+            Component reloadMessageComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(configReloadMessage);
+            sender.sendMessage(reloadMessageComponent);
+
             plugin.reloadConfig();
             rtpQCommand.updateConfigValues();
-        }else{
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noperms));
-        return false;
-    }
+        } else {
+            Component noPermsComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(noPermsMessage);
+            sender.sendMessage(noPermsComponent);
+            return false;
+        }
         return true;
     }
 }

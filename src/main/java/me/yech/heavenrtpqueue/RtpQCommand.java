@@ -1,7 +1,7 @@
 package me.yech.heavenrtpqueue;
 
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.*;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -46,27 +46,39 @@ public class RtpQCommand extends BukkitCommand {
                 playersInQueue.remove(player.getUniqueId());
                 String leftRtp = this.plugin.getConfig().getString("left-rtpq");
                 assert leftRtp != null;
-                player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + leftRtp));
+                Component componentMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(leftRtp);
+                player.sendMessage(componentMessage);
+
                 String globalleftRtpqmessage = this.plugin.getConfig().getString("global-left-rtpq");
                 assert globalleftRtpqmessage != null;
-                globalleftRtpqmessage = globalleftRtpqmessage.replace("%player%", player.getDisplayName());
-                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalleftRtpqmessage));
+                globalleftRtpqmessage = globalleftRtpqmessage.replace("%player%", player.getName());
+                Component globalComponentMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(globalleftRtpqmessage);
+                Bukkit.getServer().sendMessage(globalComponentMessage);
+
                 String actionbarleftrtpqueue = this.plugin.getConfig().getString("actionbar-left-rtpq");
                 assert actionbarleftrtpqueue != null;
-                player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarleftrtpqueue));
+                Component actionBarComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(actionbarleftrtpqueue);
+                player.sendActionBar(actionBarComponent);
+
                 return true;
             }
             playersInQueue.add(player.getUniqueId());
             String joinRtpq = this.plugin.getConfig().getString("joined-rtpq");
             assert joinRtpq != null;
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + joinRtpq));
+            Component componentJoinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(joinRtpq);
+            player.sendMessage(componentJoinMessage);
+
             String globalRtpqmessage = this.plugin.getConfig().getString("global-joined-rtpq");
             assert globalRtpqmessage != null;
-            globalRtpqmessage = globalRtpqmessage.replace("%player%", player.getDisplayName());
-            Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + globalRtpqmessage));
+            globalRtpqmessage = globalRtpqmessage.replace("%player%", player.getName());
+            Component globalJoinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(globalRtpqmessage);
+            Bukkit.getServer().sendMessage(globalJoinMessage);
+
             String actionbarjoinedrtpqueue = this.plugin.getConfig().getString("actionbar-joined-rtpq");
             assert actionbarjoinedrtpqueue != null;
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarjoinedrtpqueue));
+            Component actionBarJoinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(actionbarjoinedrtpqueue);
+            player.sendActionBar(actionBarJoinMessage);
+
             if (playersInQueue.size() == 2) {
                 executorService.submit(() -> {
                     Location loc = getRandomLocation();
@@ -74,22 +86,26 @@ public class RtpQCommand extends BukkitCommand {
                     Player player2 = Bukkit.getPlayer(playersInQueue.get(1));
                     String teleportation = this.plugin.getConfig().getString("being-teleported");
                     assert teleportation != null;
+                    Component teleportMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(teleportation);
+
                     String actionbarbeingteleported = this.plugin.getConfig().getString("actionbar-being-teleported");
                     assert actionbarbeingteleported != null;
+                    Component actionBarTeleportMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(actionbarbeingteleported);
+
                     assert player1 != null;
                     assert player2 != null;
                     BukkitScheduler scheduler = Bukkit.getScheduler();
                     scheduler.runTaskAsynchronously(plugin, () -> {
-                        player1.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
-                        player2.sendMessage(ChatColor.translateAlternateColorCodes('&', ChatColor.RESET + teleportation));
-                        player1.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
-                        player2.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(actionbarbeingteleported));
+                        player1.sendMessage(teleportMessage);
+                        player2.sendMessage(teleportMessage);
+                        player1.sendActionBar(actionBarTeleportMessage);
+                        player2.sendActionBar(actionBarTeleportMessage);
                         player1.playSound(player1.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                         player2.playSound(player2.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                     });
-                    scheduler.runTaskLater(plugin, () -> {
-                        player1.teleport(loc);
-                        player2.teleport(loc);
+                    scheduler.runTaskLaterAsynchronously(plugin, () -> {
+                        player1.teleportAsync(loc);
+                        player2.teleportAsync(loc);
                         player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
                         player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
 
@@ -98,11 +114,13 @@ public class RtpQCommand extends BukkitCommand {
                     playersInQueue.remove(player2.getUniqueId());
                 });
             }
+        } else {
+            Component noPermsMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(noperms);
+            sender.sendMessage(noPermsMessage);
         }
-        else
-            sender.sendMessage(ChatColor.translateAlternateColorCodes('&', noperms));
         return true;
     }
+
     public Location getRandomLocation() {
         Random randomSource = new Random();
         World hopeFullyExistingDefaultWorld = Bukkit.getWorld("world");
@@ -112,6 +130,7 @@ public class RtpQCommand extends BukkitCommand {
         int highestY = hopeFullyExistingDefaultWorld.getHighestBlockYAt(randomX, randomZ) + 3;
         return new Location(hopeFullyExistingDefaultWorld, randomX, highestY, randomZ).add(0, 2, 0);
     }
+
     public List<UUID> getPlayersInQueue() {
         return playersInQueue;
     }

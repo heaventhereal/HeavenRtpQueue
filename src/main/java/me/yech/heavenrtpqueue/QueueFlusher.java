@@ -1,7 +1,8 @@
 package me.yech.heavenrtpqueue;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
@@ -21,8 +22,11 @@ public class QueueFlusher extends BukkitRunnable {
         if (!playersInQueue.isEmpty()) {
             playersInQueue.clear();
             String flushMessage = plugin.getConfig().getString("queue-flushed-message");
-            if (flushMessage != null)
-                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', flushMessage));
+            if (flushMessage != null) {
+                Component messageComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(flushMessage);
+
+                Bukkit.getServer().sendMessage(messageComponent);
+            }
         }
     }
 }
