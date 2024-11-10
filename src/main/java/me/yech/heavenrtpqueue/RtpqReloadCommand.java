@@ -18,9 +18,9 @@ public class RtpqReloadCommand extends BukkitCommand {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, String[] args) {
-        String configReloadMessage = this.plugin.getConfig().getString("config-reloaded");
+        String configReloadMessage = this.plugin.getConfig().getString("messages.config-reloaded");
         assert configReloadMessage != null;
-        String noPermsMessage = this.plugin.getConfig().getString("no-perms");
+        String noPermsMessage = this.plugin.getConfig().getString("messages.no-perms");
         assert noPermsMessage != null;
 
         if (sender.hasPermission("yech.rtpqreload")) {
