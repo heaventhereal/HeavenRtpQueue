@@ -11,7 +11,10 @@
 > Global Rtp Queue Join Message
 
 
-> Support for Spigot/Paper/Purpur (and other spigot-based forks)
+> Really fast and optimized
+
+
+> Support for Paper/Purpur (and other paper-based forks)
 
 
 >  1.20.x to 1.21.x (I Haven't tested other versions)
@@ -23,7 +26,7 @@
 
 
 > TODO:
-- idk
+- add duel system, be less lazy, and make a more accurate README.md
 
 > Config.yml:
 ```
