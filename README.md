@@ -19,6 +19,7 @@
 
 > Permissions:
 - yech.rtpqreload (reloads the config.yml file)
+- heaven.rtpq
 
 
 > TODO:
