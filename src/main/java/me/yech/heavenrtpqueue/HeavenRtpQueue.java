@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public final class HeavenRtpQueue extends JavaPlugin {
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final ExecutorService executorService = Executors.newScheduledThreadPool(0, Thread.ofVirtual().factory());
     private static final Logger logger = Logger.getLogger(HeavenRtpQueue.class.getName());
     private CommandMap commandMap;
 

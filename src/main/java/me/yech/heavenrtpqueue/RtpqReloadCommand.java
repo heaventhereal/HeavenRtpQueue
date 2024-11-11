@@ -23,7 +23,7 @@ public class RtpqReloadCommand extends BukkitCommand {
         String noPermsMessage = this.plugin.getConfig().getString("messages.no-perms");
         assert noPermsMessage != null;
 
-        if (sender.hasPermission("yech.rtpqreload")) {
+        if (sender.hasPermission("heaven.rtpqreload")) {
             Component reloadMessageComponent = LegacyComponentSerializer.legacyAmpersand().deserialize(configReloadMessage);
             sender.sendMessage(reloadMessageComponent);
 

@@ -12,10 +12,11 @@ import org.jetbrains.annotations.NotNull;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RtpQCommand extends BukkitCommand {
     private final HeavenRtpQueue plugin;
-    private final ExecutorService executorService = Executors.newCachedThreadPool();
+    private final ExecutorService executorService = Executors.newScheduledThreadPool(0, Thread.ofVirtual().factory());
     private final ObjectArrayList<UUID> playersInQueue = new ObjectArrayList<>();
     private int xMin;
     private int xMax;
@@ -132,12 +133,17 @@ public class RtpQCommand extends BukkitCommand {
     }
 
     public Location getRandomLocation() {
-        Random randomSource = new Random();
+        ThreadLocalRandom randomSource = ThreadLocalRandom.current();
+
         World hopeFullyExistingDefaultWorld = Bukkit.getWorld("world");
-        int randomX = randomSource.nextInt(xMax - xMin + 1) + xMin;
-        int randomZ = randomSource.nextInt(zMax - zMin + 1) + zMin;
+
+        int randomX = randomSource.nextInt(xMin, xMax + 1);
+        int randomZ = randomSource.nextInt(zMin, zMax + 1);
+
         assert hopeFullyExistingDefaultWorld != null;
+
         int highestY = hopeFullyExistingDefaultWorld.getHighestBlockYAt(randomX, randomZ) + 3;
+
         return new Location(hopeFullyExistingDefaultWorld, randomX, highestY, randomZ).add(0, 2, 0);
     }
 
