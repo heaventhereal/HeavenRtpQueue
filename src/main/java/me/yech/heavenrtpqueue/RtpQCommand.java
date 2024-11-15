@@ -88,8 +88,7 @@ public class RtpQCommand extends BukkitCommand {
             Component actionBarJoinMessage = LegacyComponentSerializer.legacyAmpersand().deserialize(actionbarjoinedrtpqueue);
             player.sendActionBar(actionBarJoinMessage);
 
-            int queueSize = this.plugin.getConfig().getInt("queue-size", 2);
-            if (playersInQueue.size() == queueSize) {
+            if (playersInQueue.size() == 2) {
                 executorService.submit(() -> {
                     Location loc = getRandomLocation();
                     Player player1 = Bukkit.getPlayer(playersInQueue.get(0));
@@ -112,14 +111,13 @@ public class RtpQCommand extends BukkitCommand {
                     player1.playSound(player1.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
                     player2.playSound(player2.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 5.0F, 1F);
 
-                    int teleportDelay = this.plugin.getConfig().getInt("teleport-delay", 1);
                     Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, () -> {
                         player1.teleportAsync(loc);
                         player2.teleportAsync(loc);
                         player1.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
                         player2.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 5.0F, 1F);
 
-                    }, teleportDelay);
+                    }, 20);
 
                     playersInQueue.remove(player1.getUniqueId());
                     playersInQueue.remove(player2.getUniqueId());

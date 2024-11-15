@@ -15,5 +15,3 @@ Min z: 50 # Minimum Z coordinate for tp
 Max x: 8000 # Maximum X coordinate for tp (I suggest setting this to your chunky radius)
 Max z: 8000 # Maximum Z coordinate for tp (I suggest setting this to your chunky radius)
 queue-flush-interval: 300 # Interval in seconds to automatically clear the queue
-teleport-delay: 1 # Time in seconds before the plugin teleports the players
-queue-size: 2 # Number of players needed to start the tp

@@ -1,6 +1,6 @@
 name: HeavenRtpQueue
-version: '1.6'
+version: '1.7'
 main: me.yech.heavenrtpqueue.HeavenRtpQueue
-api-version: '1.21'
+api-version: '1.21.1'
 authors:
   - yech
